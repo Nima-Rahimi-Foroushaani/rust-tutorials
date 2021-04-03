@@ -1,3 +1,5 @@
+#![allow(unused, dead_code)]
+
 pub trait Summary {
     fn summarize(&self) -> String;
 }
@@ -28,7 +30,7 @@ impl Summary for Tweet {
     }
 }
 
-fn returns_summarizable(switch: bool) -> impl Summary {
+/*fn returns_summarizable(switch: bool) -> impl Summary {
     if switch {
         NewsArticle {
             headline: String::from(
@@ -51,8 +53,80 @@ fn returns_summarizable(switch: bool) -> impl Summary {
             retweet: false,
         }
     }
+}*/
+
+struct Pair<T, U> {
+    first : T,
+    second : U
 }
 
-fn main() {
+impl<T, U> Pair<T, U> 
+where T: Copy, U: Copy {
+    fn first(&self)-> T {
+        self.first
+    }
     
+    fn second(&self)-> U {
+        self.second
+    }
+    
+    fn dummy(&self) -> bool {
+        true
+    }
+}
+
+trait Printable {
+    fn print(&self);
+}
+
+struct Container<T> {
+    field : T
+}
+
+/*impl<T> Container<T>
+where T : std::fmt::Display
+{
+    fn print(&self) {
+        println!("I am general: field={}", self.field);
+    }
+}*/
+
+impl Container<i32> {
+    fn print(&self) {
+        println!("I am i32: field={}",self.field);
+    }
+}
+
+impl Container<u32> {
+    fn print(&self) {
+        println!("I am u32: field={}",self.field);
+    }
+}
+
+/*
+impl<T> Printable for Container<T>
+{
+    fn print(&self) {
+        println!("My field is not printable!")
+    }
+}
+*/
+
+
+
+fn main() {
+/*    let x = Container{field: 32i32};
+    x.print();
+    
+    let y = Container{field: "String"};
+    y.print();
+    
+    let z = Container{field: Ok(42) };
+    x.print();*/
+    
+    let a = Container{field: 1i32};
+    a.print();
+    
+    let b = Container{field: 1u32};
+    b.print();
 }

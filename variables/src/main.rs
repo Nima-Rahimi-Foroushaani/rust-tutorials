@@ -9,6 +9,6 @@ fn main() {
     let str = String::from("This is a string!");
     let str = &str[..];
     
-    println!("The string \"{}\" is shadowed with a reference to itself!", str);
+    println!("The string {:?} is shadowed with a reference to itself!", str);
 
 }
