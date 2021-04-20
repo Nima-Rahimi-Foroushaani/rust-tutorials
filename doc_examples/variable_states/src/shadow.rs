@@ -15,5 +15,5 @@ pub fn f1() {
     println!("{}", x); // prints PI
     
     //} end of the scope of x: f32
-    // and immediately end of the scope of x: i32 as function ends
+    // and immediately end of the scope of x: i32 as the function ends
 }
