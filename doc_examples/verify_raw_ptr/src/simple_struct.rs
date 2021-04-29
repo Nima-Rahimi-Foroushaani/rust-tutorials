@@ -41,10 +41,11 @@ pub fn read_unsafe(a: &Account) -> i32 {
         
         // nothing goes out of scope here
     }
+    // From the end of unsafe block to the end of safe abstraction we should check accesses to realized references
     
     // return statement
     result
     
-    // clean up: this is a safe abstraction and the consistency of heap should be checek
+    // clean up: this is a safe abstraction and the consistency of heap should be checked
     // Active_Context(a, source(Account)) and Symbolic_Store(a, _a) ==> consume [?p]_a->balance |-> ?balance &*& 0<p &*& p=<1;
 }
