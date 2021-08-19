@@ -21,6 +21,7 @@ pub fn simple_i32_shared_pass(/*Imm*/ x: & /*Imm*/ i32, /*Imm*/ y: & /*Imm*/ i32
 {
     let mut ptr: *const i32 = x;
     {
+        /* some complex code using "ptr" and "n". really complex! believe me! */
         let /*Imm*/ n: i32 = 43;
         ptr = y;
     }
