@@ -1,4 +1,5 @@
 mod ref_access;
+mod vars;
 
 fn main() {
     ref_access::cmp();

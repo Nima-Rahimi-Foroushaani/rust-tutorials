@@ -18,8 +18,9 @@ fn main() {
         println!("{}", x);
     }*/
     
-    function1();
-    function2();
+//    function1();
+//    function2();
+    function8();
 }
 
 /** Here we see the type system not only takes care of the end of the borrower lifetime,
@@ -49,4 +50,48 @@ fn function3() {
     let x = 42;
     let rx1 = &x;
     let rx2 = &x;
+}
+
+fn function4() -> i32 {
+//    let y =
+     {
+        let mut x:i32 = 42;
+        &x
+    };
+    43
+}
+
+fn function5() {
+    let mut x:i32 = 42;
+    let rx:&mut i32 = &mut x;
+    let rrx: & &mut i32=&rx;
+//    *rx = 43;
+    println!("{}", rrx);
+}
+
+fn function6() {
+    let mut x = 42;
+    let rx = &mut x;
+    *rx=0;
+    println!("{}", *rx);
+}
+
+fn function7() {
+    let mut x:i32 = 42;
+    let mut rx:&mut i32=& mut x;
+    let rrx:&mut &mut i32 = &mut rx;
+    let mut y:i32 = 43;
+    *rrx = &mut y;
+//    x=24;//cannot assign to `x` because it is borrowed
+    println!("{}", **rrx);
+}
+
+fn function8() {
+    let mut x:i32 = 1;
+    let mut rx:&mut i32 = &mut x;
+    
+    let rrx:&mut &mut i32 = &mut rx;
+    let rxp:&mut i32 = *rrx;
+    
+    println!("{} {}", rrx, rxp);
 }
