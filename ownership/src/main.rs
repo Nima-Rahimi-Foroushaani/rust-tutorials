@@ -98,3 +98,8 @@ fn main() {
     own_transfer_rv();
 
 }
+
+
+fn own_in_heap() {
+    let name = Box::new(String::from("Someone"));
+}
