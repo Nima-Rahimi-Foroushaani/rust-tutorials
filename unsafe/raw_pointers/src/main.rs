@@ -23,3 +23,36 @@ fn main() {
     
     //println!("num is {}", num);
 }
+
+fn raw_own_deref_unsafe() {
+    let mut p = 0xFFFFFFFFusize as *const Box<i32>;
+    {
+        let b = Box::new(42);
+        p = &b;
+    }
+    
+    unsafe{
+//        let b1 = *p;
+    }
+}
+
+fn raw_mut_deref_unsafe() {
+    let mut x: i32 = 42;
+    let mut rx = &mut x;
+    let p: *mut i32 = rx;
+    unsafe{
+        let rx1 = *p;
+    }
+}
+
+fn raw_immut_deref_unsafe() {
+    let p: *const &i32;
+    {
+        let x = 42;
+        let rrx = &&x;
+        p = rrx;        
+    }
+    unsafe {
+        let x1: &i32 = *p;
+    }
+}

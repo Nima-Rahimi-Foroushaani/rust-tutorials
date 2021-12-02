@@ -43,50 +43,81 @@ pub fn simple_i32_shared_mut() {
     // you can Do this mutations based regardless of the type.
 }
 
-//Rust Horn COR representation
+//Rust COR representation
 #[allow(unused)]
-pub fn simple_int_pass() -> i32 {
-    let mut x: i32 = 42;
+pub fn simple_int_pass() {
+    let mut result:i32 = 0;
+    //let *result = 0;
+    let mut x:i32 = 42;
     //let *x = 42;
 
-    let mut p: *mut i32 = &mut x;
-    //let p = raw x;
+    let mut p:*mut i32 = &mut x;
+    //intro alpha;
+    //let mx = mutbor_alpha x;
+    //let px = raw mx;
+    //let *p = px;
+    //drop mx;
+    //now alpha;
     {
-        let mut n: i32 = 43;
-        //let *n = 43;
-        //drop n;
+        let mut y:i32 = 43;
+        //let *y = 43;
+        //drop y;
     }
     unsafe {
-        *p
-        //let *res = copy *p;
+        //unsafe;
+        result = *p;
+        //let px = *p;
+        //let *cx = copy *px;
+        //swap(*result,*cx);
+        //drop cx;
+        //let *p = px;
+        //safe;
     }
+    //drop p;
     //drop x;
-    //return res;
+    //drop result;
 }
 
 #[allow(unused)]
-pub fn simple_int_fail() -> i32 {
-    let mut x: i32 = 42;
+pub fn simple_int_fail() {
+    let mut result:i32 = 0;
+    //let *result = 0;
+    let mut x:i32 = 42;
     //let *x = 42;
 
-    let mut p: *mut i32 = &mut x;
-    //let p = raw x;
+    let mut p:*mut i32 = &mut x;
+    //intro alpha;
+    //let mx = mutbor_alpha x;
+    //let px = raw mx;
+    //let *p = px;
+    //drop mx;
+    //now alpha;
     {
-        let mut n: i32 = 43;
-        //let *n = 43;
-        p = &mut n;
-        //let *op = p;
-        //let *opp = raw n;
-        //swap(*op, *opp);
-        //drop opp;
-        //let p = *op;
-
-        //drop n;
+        let mut y:i32 = 43;
+        //let *y = 43;
+        p = &mut y;
+        //intro beta;
+        //let my = mutbor_beta y;
+        //let py = raw my;
+        //let *p1 = py;
+        //drop my;
+        //now beta;
+        //swap(*p,*p1);
+        //drop p1;
+        
+        //drop y;
     }
     unsafe {
-        *p
-        //let *res = copy *p;
+        //unsafe;
+        result = *p;
+        //let px = *p;
+        //let *cx = copy *px;
+        //swap(*result,*cx);
+        //drop cx;
+        //let *p = px;
+        //safe;
     }
+    //drop p;
     //drop x;
-    //return res;
+    //drop result;
 }
