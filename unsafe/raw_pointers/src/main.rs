@@ -53,6 +53,16 @@ fn raw_immut_deref_unsafe() {
         p = rrx;        
     }
     unsafe {
-        let x1: &i32 = *p;
+        // let x1: &i32 = *p;
     }
+}
+
+fn raw_move() {
+    let mut b = Box::new(42);
+    let p = &mut b as *mut Box<i32>;
+    unsafe {
+        // cannot move something below raw pointer but we can get a mutable reference
+        let br = &mut *p;
+    }
+
 }
