@@ -1,5 +1,5 @@
 [package]
-name = "rc_int"
+name = "rc_u32_example"
 version = "0.1.0"
 authors = ["Nima-Rahimi-Foroushaani <nimacodecont@gmail.com>"]
 edition = "2018"
