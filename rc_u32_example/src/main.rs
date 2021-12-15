@@ -2,7 +2,7 @@ mod stde;
 
 #[allow(unused)]
 fn main() -> () {
-    let rc1 = stde::rc_u32::RcU32::new(42);
+    let rc1 = stde::rc_u32::new(42);
     {
         let imm_rc1 = &rc1;
         let rc2 = stde::rc_u32::RcU32::clone(imm_rc1);
