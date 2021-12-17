@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct CellU32 {
     value: u32,
 }

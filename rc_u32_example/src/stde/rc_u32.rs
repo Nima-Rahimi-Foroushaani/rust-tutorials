@@ -1,13 +1,14 @@
 use crate::stde;
 use std::alloc::{alloc, dealloc, Layout};
-use std::ops::Deref;
-
+// use std::ops::Deref;
+#[derive(Debug)]
 struct RcBoxU32 {
     value: u32,
     strong: stde::cell_u32::CellU32,
 }
 // private struct stde::rc_u32::RcBoxU32{nat, stde::cell_u32::CellU32}
 
+#[derive(Debug)]
 pub struct RcU32 {
     ptr: *mut RcBoxU32,
 }
@@ -27,7 +28,7 @@ pub fn new(v: u32) -> RcU32 {
         value: v,
         strong: strong,
     };
-    *mut_rcb = rcb_data;
+    *mut_rcb = dbg!(rcb_data);
     let r = RcU32 { ptr: ptr_rcb };
     return r;
 }
@@ -55,112 +56,127 @@ pub fn new(v: u32) -> RcU32 {
  */
 
 pub fn clone<'a>(this: &'a RcU32) -> RcU32 {
-    let imm_ptr = &this.ptr;
-    let ptr = *imm_ptr;
-    let ptr_strong = &raw mut ptr.strong;
-    let imm_strong;
-    unsafe {
-        let imm_rcb = &*ptr;
-        imm_strong = &imm_rcb.strong;
-    }
+    let imm_ptr_rcb = &this.ptr;
+    let ptr_rcb = *imm_ptr_rcb;
+    let imm_rcb = unsafe { &*ptr_rcb };
+    let imm_strong = &imm_rcb.strong;
     let count = stde::cell_u32::get(imm_strong);
     let count1 = count + 1;
-    // unsafe { (*self.ptr).strong.set(count1) };
-    stde::cell_u32::set(strong, count1);
-
-    let r = RcU32 { ptr: ptr };
+    stde::cell_u32::set(imm_strong, count1);
+    dbg!(imm_rcb);
+    let r = RcU32 { ptr: ptr_rcb };
     return r;
 }
 /***
- * pub safe fn rc_u32::clone<alpha|>(self: immut'alpha rc_u32::RcU32) -> own rc_u32::RcU32 {
- * let imm_ptr_rcb = self.0;
- * let *o_ptr_rcb = copy *imm_ptr_rcb;
+ * pub safe fn stde::rc_u32::clone<alpha|>(this: immut'alpha stde::rc_u32::RcU32) -> own stde::rc_u32::RcU32 {
+ * let imm_ptr_rcb = this.0;
  * let ptr_rcb = *imm_ptr_rcb;
- * let ptr_strong = ptr_rcb.1;
  * unsafe;
  * intro beta;
- * let imm_strong = immut'beta ptr_strong;
+ * let imm_rcb = immut'beta ptr_rcb;
  * safe;
+ * let imm_strong = imm_rcb.1;
  * let *o_imm_strong = imm_strong;
  * let *o_imm_strong1 = copy *o_imm_strong;
  * let imm_strong = *o_imm_strong;
  * let imm_strong1 = *o_imm_strong1;
- * let *count = cell_u32::get<beta>(imm_strong1);
+ * let count = stde::cell_u32::get<beta>(imm_strong1);
  * let *one = 1;
- * let count1 = *count + *one;
- * let *dummy = cell_u32::set<beta>(imm_strong, count1);
- * now beta;
+ * let *count1 = *count + *one;
+ * let dummy = stde::cell_u32::set<beta>(imm_strong, count1);
  * drop dummy;
- * let *r = rc_u32::RcU32{*o_ptr_rcb};
+ * now beta;
+ * let *o_ptr_rcb = ptr_rcb
+ * let *r = stde::rc_u32::RcU32{*o_ptr_rcb};
+ * drop one;
+ * drop count;
  * return r;
  * }
  */
+
 impl Drop for RcU32 {
-    fn drop(self: &mut Self) {
-        unsafe {
-            let count = stde::cell_u32::get(&(*self.ptr).strong) - 1;
-            match count == 0 {
-                true => {
-                    let ptr = self.ptr as *mut u8;
-                    let layout = Layout::new::<RcBoxU32>();
-                    dealloc(ptr, layout)
-                }
-                false => (),
+    fn drop<'a>(self: &'a mut Self) {
+        let mut_ptr_rcb = &mut self.ptr;
+        let ptr_rcb = *mut_ptr_rcb;
+        let imm_rcb = unsafe { &*ptr_rcb };
+        let imm_strong = &imm_rcb.strong;
+        let count = stde::cell_u32::get(imm_strong);
+        let count1 = count - 1;
+        let is_last = count1 == 0;
+
+        match is_last {
+            true => {
+                let layout = Layout::new::<RcBoxU32>();
+                let ptr_rcb = ptr_rcb as *mut u8;
+                dbg!("dealloc", imm_rcb);
+                unsafe { dealloc(ptr_rcb, layout) };
+            }
+            false => {
+                stde::cell_u32::set(imm_strong, count1);
+                dbg!("rc dec", imm_rcb);
             }
         }
     }
     /***
-     * private safe rc_u32::drop<alpha|>(self: mut'alpha rc_u32::RcU32) -> own unit {
-     * let mut_ptr_rcbox = self.0;
-     * let ptr_rcbox = *mut_ptr_rcbox;
-     * let *o_ptr_rcbox = ptr_rcbox;
-     * let *o_ptr_rcbox1 = copy *ptr_rcbox;
-     * let ptr_rcbox = *o_ptr_rcbox;
-     * let ptr_rcbox1 = o_ptr_rcbox1;
-     * let ptr_strong = ptr_rcbox1.1;
+     * private safe fn stde::rc_u32::drop<alpha|>(self: mut'alpha stde::rc_u32::RcU32) -> own unit {
+     * let mut_ptr_rcb = self.0;
+     * let ptr_rcb = *mut_ptr_rcb;
      * unsafe;
      * intro beta;
-     * let imm_strong = immut'beta ptr_strong;
+     * let imm_rcb = immut'beta ptr_rcb;
      * safe;
-     * let *count = cell_u32::get(imm_strong);
-     * now beta;
+     * let imm_strong = imm_rcb.1;
+     * let *o_imm_strong = imm_strong;
+     * let *o_imm_strong1 = copy *o_imm_strong;
+     * let imm_strong = *o_imm_strong;
+     * let imm_strong1 = *o_imm_strong1;
+     * let count = stde::cell_u32::get<beta>(imm_strong1);
      * let *one = 1;
-     * let *is_last = *count == *one;
-     * match *is_last:bool
+     * let *count1 = *count - *one;
+     * let *is_last = *count1 == *one;
+     * match *is_last
      * *y0 => goto L_FALSE;
      * *y1 => goto L_TRUE;
-     * L_False:
-     * drop y0:goto L_FIN;
+     *
      * L_TRUE:
-     * dealloc ptr_rcbox;
-     * drop y1:goto L_FIN;
+     * unsafe;
+     * dealloc ptr_rcb;
+     * safe;
+     * drop y1;
+     * drop count1;
+     * drop imm_strong1:goto L_FIN;
+     *
+     * L_False:
+     * let dummy = stde::cell_u32::set<beta>(imm_strong, count1);
+     * drop dummy;
+     * drop y0:goto L_FIN;
+     *
      * L_FIN:
+     * now beta;
      * drop one;
      * drop count;
-     * drop ptr_strong;
-     * let *r = ();
+     * drop ptr_rcb;
+     * let *r = unit{};
      * return r;
      * }
      */
 }
 
-impl Deref for RcU32 {
-    type Target = u32;
-    /*pub*/
-    fn deref(self: &Self) -> &u32 {
-        let imm_rc_box = unsafe { &*self.ptr };
-        let r = &imm_rc_box.value;
-        return r;
-    }
-    /***
-     * pub safe fn deref<alpha|>(self: immut'alpha stde::rc_u32::RcU32) -> immut'alpha nat {
-     * let imm_ptr_rcbox = self.0;
-     * let ptr_rcbox = *imm_ptr_rcbox;
-     * let ptr_value = ptr_rcbox.value;
-     * unsafe;
-     * let imm_value = immut'alpha ptr_value;
-     * safe;
-     * return imm_value;
-     * }
-     */
+pub fn deref<'a>(this: &'a stde::rc_u32::RcU32) -> &'a u32 {
+    let imm_ptr_rcb = &this.ptr;
+    let ptr_rcb = *imm_ptr_rcb;
+    let imm_rcb = unsafe { &*ptr_rcb };
+    let imm_value = &imm_rcb.value;
+    return imm_value;
 }
+/***
+ * pub safe fn deref<alpha|>(this: immut'alpha stde::rc_u32::RcU32) -> immut'alpha nat {
+ * let imm_ptr_rcb = this.0;
+ * let ptr_rcb = *imm_ptr_rcb;
+ * unsafe;
+ * let imm_rcb = immut'alpha ptr_rcb;
+ * safe;
+ * let imm_value = imm_rcb.0;
+ * return imm_value;
+ * }
+ */
