@@ -4,7 +4,7 @@ use std::alloc::{alloc, dealloc, Layout};
 #[derive(Debug)]
 struct RcBoxU32 {
     value: u32,
-    strong: stde::cell_u32::CellU32,
+    strong: stde::cell_u32::CellNat,
 }
 // private struct stde::rc_u32::RcBoxU32{nat, stde::cell_u32::CellU32}
 
@@ -37,6 +37,7 @@ pub fn new(v: u32) -> RcU32 {
  * let *sz = sizeof stde::rc_u32::RcBoxU32;
  * unsafe;
  * let ptr_rcb = alloc *sz;
+ * ptr_rcb as raw RcBoxU32;
  * intro alpha;
  * let mut_rcb = mut'alpha ptr_rcb;
  * safe;

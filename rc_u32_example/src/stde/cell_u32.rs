@@ -38,36 +38,30 @@ pub fn set<'a>(this: &'a CellNat, v: u32) -> () {
 }
 /***
  * pub safe fn stde::cell_nat::set<alpha|>(this: immut'alpha stde::cell_nat::CellNat<>, v: own nat) -> own unit {
- * {{sstore=this:#this,v:#v; sheap=[rd(#fr)]#this->#value, [del]#v->#value1}}
+ * // producing parameters
+ * {{sstore=this:#this,v:#v; sheap=alpha::[shr(#fr)]#this->stde::cell_nat::CellNat<>,[del]#v->nat(#value)}}
  *
- * let {*imm_value} = this;
- * {{sstore=this:#this,v:#v,imm_value:#this; sheap=[rd]#this->#value, [del]#v->#value1}}
+ * let {*imm_value} = this; //type access check is performed at type checking
+ * // pointer calculation and openning the type predicate
+ * // alpha::[shr(fr)]this->stde::cell_nat::CellNat<> =* alpha::[shr(1.0)]this->nat(value) *
+ * No active path to #this with type nat unless frozen by alpha
+ * {{sstore=this:#this,v:#v,imm_value:#this; sheap=[del]#v->nat(#value),alpha::[shr(1.0)]#this->nat(#value1)}}
  *
  * let ptr_value = raw imm_value;
- * {{sstore=this:#this,v:#v,imm_value:#this,ptr_value:#this; sheap=[rd]#this->#value, [del]#v->#value1}}
+ * {{sstore=this:#this,v:#v,imm_value:#this,ptr_value:#this;
+ * sheap=alpha::[shr(#fr)]#this->stde::cell_nat::CellNat<>,[del]#v->#value}}
  *
  * unsafe;
  * intro beta;
  * let mut_value = mutbor'beta ptr_value;
- * {{sstore=this:#this,v:#v,imm_value:#this,ptr_value:#this,mut_value:#this; sheap=[rd]#this->#value, [del]#v->#value1}}
  *
  * safe;
  * swap(*mut_value, *v);
- * {{sstore=this:#this,v:#v,imm_value:#this,ptr_value:#this,mut_value:#this; sheap=[rd]#this->#value1, [del]#v->#value}}
- *
  * drop mut_value;
- * {{sstore=this:#this,v:#v,imm_value:#this,ptr_value:#this; sheap=[rd]#this->#value1, [del]#v->#value}}
- * 
  * now beta;
  * drop ptr_value;
- * {{sstore=this:#this,v:#v,imm_value:#this; sheap=[rd]#this->#value1, [del]#v->#value}}
- * 
  * drop imm_value;
- * {{sstore=this:#this,v:#v; sheap=[rd]#this->#value1, [del]#v->#value}}
- * 
  * drop v;
- * {{sstore=this:#this; sheap=[rd]#this->#value1}}
- *
  * let *r = unit<>{};
  * return r;
  * }
