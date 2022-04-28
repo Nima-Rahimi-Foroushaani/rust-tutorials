@@ -1,6 +1,7 @@
-struct Wrap<T> {
-    wi32: T,
-}
+// struct Wrap<T> {
+//     wi32: T,
+// }
+struct Something();
 
 fn main()
 //@ requires true;
@@ -8,7 +9,7 @@ fn main()
 @*/
 {
     //@ assert true;
-    let x = &mut Wrap::<i32> { wi32: 0 }.wi32;
+    let x = &mut 0; //&mut Wrap::<i32> { wi32: 0 }.wi32;
     while *x < 42 {
         *x += 1;
     }

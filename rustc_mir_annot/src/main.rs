@@ -1,6 +1,13 @@
 #![feature(rustc_private)]
 
 /***
+ * TODO:
+ * 1- Is really necessary to register queries. read mir pretty printer
+ * 2- Where are the data type definitions
+ * 3- Is there a serializer for mir
+ */
+
+/***
  * This example is written based on "rust/src/test/run-make-fulldeps/obtain-borrowck"
  * This program implements a rustc driver that retrieves MIR bodies with
  * borrowck information. This cannot be done in a straightforward way because
@@ -84,7 +91,7 @@ impl rustc_driver::Callbacks for CompilerCalls {
     ) -> Compilation {
         compiler.session().abort_if_errors();
         queries.global_ctxt().unwrap().peek_mut().enter(|tcx| {
-            // Collect definition ids of MIR bodies.
+            // Collect definition ids of bodies.
             let hir = tcx.hir();
             let mut visitor = HirVisitor { bodies: Vec::new() };
             hir.visit_all_item_likes(&mut visitor);
@@ -97,14 +104,13 @@ impl rustc_driver::Callbacks for CompilerCalls {
             // See what bodies were borrow checked.
             let mut bodies = get_bodies(tcx);
             bodies.sort_by(|(def_id1, _), (def_id2, _)| def_id1.cmp(def_id2));
-            println!("Bodies retrieved for:");
+            println!("Bodies retrived for:");
             for (def_id, body) in bodies {
                 println!("{}", def_id);
-                mir::pretty::write_mir_pretty(tcx, None, &mut std::io::stdout().lock()).unwrap();
                 assert!(body.input_facts.cfg_edge.len() > 0);
             }
+            mir::pretty::write_mir_pretty(tcx, None, &mut std::io::stdout().lock()).unwrap();
         });
-
         Compilation::Continue
     }
 }
@@ -150,8 +156,11 @@ struct HirVisitor {
 
 impl<'tcx> ItemLikeVisitor<'tcx> for HirVisitor {
     fn visit_item(&mut self, item: &rustc_hir::Item) {
-        if let rustc_hir::ItemKind::Fn(..) = item.kind {
-            self.bodies.push(item.def_id);
+        match item.kind {
+            rustc_hir::ItemKind::Fn(..) => self.bodies.push(item.def_id),
+            // We cannot send DefId of a struct to optimize_mir query
+            rustc_hir::ItemKind::Struct(..) => (),
+            _ => (),
         }
     }
 
