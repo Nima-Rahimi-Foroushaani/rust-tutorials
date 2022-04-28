@@ -1,5 +1,5 @@
 pub fn access_types() {
-    let x = vec![1..10]; // x is the owner
+    let mut x = vec![1..10]; // x is the owner
     {
         let x_mut_ref = &mut x;
         /***
