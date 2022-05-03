@@ -1,4 +1,5 @@
 mod cell;
+mod panic_safety;
 mod rust_access_type;
 mod unsound_unsafe;
 
@@ -18,7 +19,7 @@ mod tests {
         crate::unsound_unsafe::stupid();
     }
 
-    #[test]
+    // #[test]
     fn unsound_worse_test() {
         let mut v = crate::unsound_unsafe::Vector {
             ptr: 0x0 as *mut i32,
@@ -27,5 +28,12 @@ mod tests {
 
         let r: &mut i32 = v.at(10);
         println!("The tenth element is {}", r);
+    }
+
+    fn bheap_test() {
+        let mut bh = crate::panic_safety::BinaryHeap {
+            data: vec![2, 3, 1],
+        };
+        bh.sift_up(0, 1);
     }
 }
