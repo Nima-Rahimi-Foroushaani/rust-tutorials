@@ -1,10 +1,6 @@
-use std::mem::MaybeUninit;
 use std::ptr::addr_of_mut;
 //@ #include <listex.gh>
 
-/**
- * todo: change struct Node *x to *mut Node
- */
 struct Node {
     prev: *mut Node,
     value: i32,
@@ -12,7 +8,6 @@ struct Node {
 }
 
 /*@
-
 predicate nodes(struct Node *before, struct Node *first, struct Node *last, struct Node *after; list<int> elements) =
     first == after ?
         last == before &*& elements == nil
@@ -37,8 +32,7 @@ unsafe fn create_deque() -> *mut Node
 //@ requires true;
 //@ ensures deque(result, nil);
 {
-    let sentinel: *mut Node =
-        (*Box::into_raw(Box::new(MaybeUninit::<Node>::uninit()))).as_mut_ptr();
+    let sentinel: *mut Node = std::alloc::alloc(std::alloc::Layout::new::<Node>()) as *mut Node;
     addr_of_mut!((*sentinel).prev).write(sentinel);
     addr_of_mut!((*sentinel).next).write(sentinel);
     return sentinel;
@@ -48,7 +42,7 @@ unsafe fn push_front(deque: *mut Node, value: i32)
 //@ requires deque(deque, ?values);
 //@ ensures deque(deque, cons(value, values));
 {
-    let n: *mut Node = (*Box::into_raw(Box::new(MaybeUninit::<Node>::uninit()))).as_mut_ptr();
+    let n: *mut Node = std::alloc::alloc(std::alloc::Layout::new::<Node>()) as *mut Node;
     addr_of_mut!((*n).prev).write(deque);
     addr_of_mut!((*n).value).write(value);
     addr_of_mut!((*n).next).write((*deque).next);
@@ -113,7 +107,7 @@ unsafe fn push_back(deque: *mut Node, value: i32)
         deque_snoc();
     }
     @*/
-    let n: *mut Node = (*Box::into_raw(Box::new(MaybeUninit::<Node>::uninit()))).as_mut_ptr();
+    let n: *mut Node = std::alloc::alloc(std::alloc::Layout::new::<Node>()) as *mut Node;
     addr_of_mut!((*n).prev).write((*deque).prev);
     addr_of_mut!((*n).value).write(value);
     addr_of_mut!((*n).next).write(deque);

@@ -1,4 +1,4 @@
-use core::mem::{replace, zeroed};
+use core::mem::{replace, MaybeUninit};
 use core::ptr;
 
 pub struct BinaryHeap<T> {
@@ -10,16 +10,22 @@ impl<T: Ord> BinaryHeap<T> {
 
     pub fn sift_up(&mut self, start: usize, mut pos: usize) {
         unsafe {
-            let new = replace(&mut self.data[pos], zeroed());
-            // There is an element with all-zero byte-pattern
-            // which is not necessarily valid
+            let new = replace(
+                &mut self.data[pos],
+                MaybeUninit::<T>::zeroed().assume_init(),
+            );
+            // There is an element with all bytes zeroed
+            // which is not necessarily a valid value
             while pos > start {
                 let parent = (pos - 1) >> 1;
-                // What if the '<=' panics!
                 if new <= self.data[parent] {
+                    // What if the '<=' panics!
                     break;
                 }
-                let x = replace(&mut self.data[parent], zeroed());
+                let x = replace(
+                    &mut self.data[parent],
+                    MaybeUninit::<T>::zeroed().assume_init(),
+                );
                 ptr::write(&mut self.data[pos], x);
                 pos = parent;
             }

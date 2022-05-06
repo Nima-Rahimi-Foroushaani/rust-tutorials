@@ -31,9 +31,25 @@ mod tests {
         println!("The tenth element is {}", r);
     }
 
+    #[test]
     fn bheap_test() {
+        #[derive(PartialEq, Eq, PartialOrd, Ord)]
+        struct Token {
+            text: String,
+        }
+
         let mut bh = crate::panic_safety::BinaryHeap {
-            data: vec![2, 3, 1],
+            data: vec![
+                Token {
+                    text: "Hello".to_string(),
+                },
+                Token {
+                    text: "world".to_string(),
+                },
+                Token {
+                    text: "!".to_string(),
+                },
+            ],
         };
         bh.sift_up(0, 1);
     }
