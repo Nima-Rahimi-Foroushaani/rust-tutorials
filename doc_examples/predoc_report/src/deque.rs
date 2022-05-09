@@ -1,3 +1,5 @@
+use std::ptr::addr_of_mut;
+
 pub struct Node {
     prev: *mut Node,
     value: i32,
@@ -13,4 +15,11 @@ pub unsafe fn create_deque() -> *mut Node {
 
 pub unsafe fn is_empty(deque: *mut Node) -> bool {
     return (*deque).next == deque;
+}
+// ...
+pub fn caller() {
+    unsafe {
+        let deque = create_deque();
+        assert!(is_empty(deque));
+    }
 }

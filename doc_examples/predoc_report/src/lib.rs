@@ -1,5 +1,6 @@
 mod cell;
 mod conc_exe_mod;
+mod deque;
 mod panic_safety;
 mod rust_access_type;
 mod unsound_unsafe;
@@ -52,5 +53,10 @@ mod tests {
             ],
         };
         bh.sift_up(0, 1);
+    }
+
+    #[test]
+    fn deque_test() {
+        crate::deque::caller();
     }
 }

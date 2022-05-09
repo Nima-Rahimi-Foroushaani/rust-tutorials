@@ -142,7 +142,7 @@ unsafe fn pop_front(deque: *mut Node) -> i32
     (*(*n).prev).next = (*n).next;
     //@ open nodes(n, ?next, last, deque, _);
     (*(*n).next).prev = (*n).prev;
-    Box::from_raw(n); // causes it to get dropped.
+    std::alloc::dealloc(n as *mut u8, std::alloc::Layout::new::<Node>());
     return result;
 }
 
@@ -172,7 +172,7 @@ unsafe fn pop_back(deque: *mut Node) -> i32
         deque_add();
     }
     @*/
-    Box::from_raw(n);
+    std::alloc::dealloc(n as *mut u8, std::alloc::Layout::new::<Node>());
     return result;
 }
 
@@ -181,7 +181,7 @@ unsafe fn drop_deque(deque: *mut Node)
 //@ requires deque(deque, nil);
 //@ ensures true;
 {
-    Box::from_raw(deque);
+    std::alloc::dealloc(deque as *mut u8, std::alloc::Layout::new::<Node>());
     //@ open nodes(_, _, _, _, _);
 }
 
