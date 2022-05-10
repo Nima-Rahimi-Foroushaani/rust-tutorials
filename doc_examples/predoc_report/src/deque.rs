@@ -19,7 +19,8 @@ pub unsafe fn is_empty(deque: *mut Node) -> bool {
 // ...
 pub fn caller() {
     unsafe {
-        let deque = create_deque();
-        assert!(is_empty(deque));
+        let d1 = create_deque();
+        let d2 = create_deque();
+        //...
     }
 }
