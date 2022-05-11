@@ -22,4 +22,9 @@ unsafe fn create_deque() -> *mut Node
 pub fn user_code()
 //@ requires true
 //@ ensures ...
-{}
+{
+    unsafe {
+        let d1 = create_deque();
+        // ...
+    }
+}
