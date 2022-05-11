@@ -1,6 +1,7 @@
 mod cell;
 mod conc_exe_mod;
 mod deque;
+mod deque_annot;
 mod panic_safety;
 mod rust_access_type;
 mod unsound_unsafe;
