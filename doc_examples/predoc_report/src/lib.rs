@@ -58,6 +58,6 @@ mod tests {
 
     #[test]
     fn deque_test() {
-        crate::deque::caller();
+        crate::deque::user_code();
     }
 }

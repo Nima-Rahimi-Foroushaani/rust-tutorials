@@ -18,3 +18,8 @@ unsafe fn create_deque() -> *mut Node
     addr_of_mut!((*sentinel).next).write(sentinel);
     return sentinel;
 }
+
+pub fn user_code()
+//@ requires true
+//@ ensures ...
+{}

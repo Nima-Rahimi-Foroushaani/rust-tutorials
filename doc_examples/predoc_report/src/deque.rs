@@ -17,7 +17,7 @@ pub unsafe fn is_empty(deque: *mut Node) -> bool {
     return (*deque).next == deque;
 }
 // ...
-pub fn caller() {
+pub fn user_code() {
     unsafe {
         let d1 = create_deque();
         let d2 = create_deque();
