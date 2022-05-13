@@ -13,7 +13,9 @@ impl Cell {
 
     pub fn set<'a>(&'a self, new_value: i32) {
         let value_mut_ptr = &self.value as *const i32 as *mut i32;
-        let value_mut_ref = unsafe { &mut *value_mut_ptr };
-        *value_mut_ref = new_value;
+        unsafe {
+            *value_mut_ptr = new_value;
+        }
     }
 }
+impl !Sync for Cell {}

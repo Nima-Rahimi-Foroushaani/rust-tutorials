@@ -4,7 +4,14 @@ pub fn stupid() {
         *ptr = 42;
     }
 }
-// Even worse
+
+pub fn worse(rrx: &mut &mut i32) {
+    let ptr = rrx as *mut &mut i32 as *mut *mut i32;
+    unsafe {
+        *ptr = 0x000000usize as *mut i32;
+    }
+}
+
 pub struct Vector {
     pub ptr: *mut i32,
     pub len: usize,
