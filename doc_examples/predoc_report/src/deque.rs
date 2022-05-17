@@ -7,7 +7,11 @@ pub struct Node {
 }
 
 pub unsafe fn create_deque() -> *mut Node {
-    let sentinel: *mut Node = std::alloc::alloc(std::alloc::Layout::new::<Node>()) as *mut Node;
+    let layout = std::alloc::Layout::new::<Node>();
+    let sentinel: *mut Node = std::alloc::alloc(layout) as *mut Node;
+    if sentinel.is_null() {
+        std::alloc::handle_alloc_error(layout)
+    }
     addr_of_mut!((*sentinel).prev).write(sentinel);
     addr_of_mut!((*sentinel).next).write(sentinel);
     return sentinel;

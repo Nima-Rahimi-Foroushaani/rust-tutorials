@@ -32,7 +32,11 @@ unsafe fn create_deque() -> *mut Node
 //@ requires true;
 //@ ensures deque(result, nil);
 {
-    let sentinel: *mut Node = std::alloc::alloc(std::alloc::Layout::new::<Node>()) as *mut Node;
+    let layout = std::alloc::Layout::new::<Node>();
+    let sentinel: *mut Node = std::alloc::alloc(layout) as *mut Node;
+    if sentinel.is_null() {
+        std::alloc::handle_alloc_error(layout)
+    }
     addr_of_mut!((*sentinel).prev).write(sentinel);
     addr_of_mut!((*sentinel).next).write(sentinel);
     return sentinel;
@@ -42,7 +46,11 @@ unsafe fn push_front(deque: *mut Node, value: i32)
 //@ requires deque(deque, ?values);
 //@ ensures deque(deque, cons(value, values));
 {
-    let n: *mut Node = std::alloc::alloc(std::alloc::Layout::new::<Node>()) as *mut Node;
+    let layout = std::alloc::Layout::new::<Node>();
+    let n: *mut Node = std::alloc::alloc(layout) as *mut Node;
+    if n.is_null() {
+        std::alloc::handle_alloc_error(layout)
+    }
     addr_of_mut!((*n).prev).write(deque);
     addr_of_mut!((*n).value).write(value);
     addr_of_mut!((*n).next).write((*deque).next);
@@ -107,7 +115,11 @@ unsafe fn push_back(deque: *mut Node, value: i32)
         deque_snoc();
     }
     @*/
-    let n: *mut Node = std::alloc::alloc(std::alloc::Layout::new::<Node>()) as *mut Node;
+    let layout = std::alloc::Layout::new::<Node>();
+    let n: *mut Node = std::alloc::alloc(layout) as *mut Node;
+    if n.is_null() {
+        std::alloc::handle_alloc_error(layout)
+    }
     addr_of_mut!((*n).prev).write((*deque).prev);
     addr_of_mut!((*n).value).write(value);
     addr_of_mut!((*n).next).write(deque);
