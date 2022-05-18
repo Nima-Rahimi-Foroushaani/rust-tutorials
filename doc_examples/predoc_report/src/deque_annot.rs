@@ -13,10 +13,9 @@ unsafe fn create_deque() -> *mut Node
  Node_value(result, _) &*& Node_next(result, result);
  */
 {
-    let layout = std::alloc::Layout::new::<Node>();
-    let sentinel: *mut Node = std::alloc::alloc(layout) as *mut Node;
+    let sentinel: *mut Node = std::alloc::alloc(std::alloc::Layout::new::<Node>()) as *mut Node;
     if sentinel.is_null() {
-        std::alloc::handle_alloc_error(layout)
+        std::alloc::handle_alloc_error(std::alloc::Layout::new::<Node>())
     }
     addr_of_mut!((*sentinel).prev).write(sentinel);
     addr_of_mut!((*sentinel).next).write(sentinel);
