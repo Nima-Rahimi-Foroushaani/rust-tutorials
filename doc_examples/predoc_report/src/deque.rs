@@ -15,7 +15,7 @@ pub unsafe fn create_deque() -> *mut Node {
     addr_of_mut!((*sentinel).next).write(sentinel);
     return sentinel;
 }
-
+// ...
 pub unsafe fn is_empty(deque: *mut Node) -> bool {
     return (*deque).next == deque;
 }
