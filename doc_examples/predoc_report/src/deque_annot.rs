@@ -9,7 +9,7 @@ pub struct Node {
 unsafe fn create_deque() -> *mut Node
 //@ requires true;
 /*
- @ ensures malloc_block_Node(sentinel) &*& Node_prev(result, result) &*&
+ @ ensures malloc_block_Node(result) &*& Node_prev(result, result) &*&
  Node_value(result, _) &*& Node_next(result, result);
  */
 {
