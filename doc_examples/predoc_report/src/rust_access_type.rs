@@ -8,7 +8,7 @@ pub fn access_types()
          * as long as this borrow is alive it
          * is not possible to access the vector through v
          */
-        mut_ref.push(10); // mutable borrow has full access
+        mut_ref.push(4); // mutable borrow has full access
     }
 
     {
