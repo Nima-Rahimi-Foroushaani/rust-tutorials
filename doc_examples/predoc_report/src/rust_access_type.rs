@@ -11,6 +11,8 @@ pub fn access_types()
         mut_ref.push(4); // mutable borrow has full access
     }
 
+    let _ = v.pop();
+
     {
         let shr_ref: &Vec<i32> = &v;
         /***
