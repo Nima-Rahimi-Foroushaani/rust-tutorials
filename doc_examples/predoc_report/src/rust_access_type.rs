@@ -1,4 +1,5 @@
-pub fn access_types() {
+pub fn access_types()
+{
     let mut v: Vec<i32> = vec![1, 2, 3]; // v is the owner
     {
         let mut_ref: &mut Vec<i32> = &mut v;
