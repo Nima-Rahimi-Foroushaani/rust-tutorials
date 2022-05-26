@@ -27,6 +27,7 @@ pub fn access_types()
             println!("{} is the first in {:?}", first, shr_ref);
         }
     }
+    let _ = v.pop();
     /***
      * The owner, v goes out of scope here
      * and the value gets dropped
