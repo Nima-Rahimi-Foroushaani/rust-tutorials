@@ -1,24 +1,33 @@
 pub fn access_types() {
-    let mut x = vec![1..10]; // x is the owner
+    let mut v: Vec<i32> = vec![1, 2, 3]; // v is the owner
     {
-        let x_mut_ref = &mut x;
+        let mut_ref: &mut Vec<i32> = &mut v;
         /***
-         * x_mut_ref is a mutable borrow of x
+         * mut_ref is a mutable borrow of v
          * as long as this borrow is alive it
-         * is not possible to access vector through x
+         * is not possible to access the vector through v
          */
+        mut_ref.push(10); // mutable borrow has full access
     }
 
     {
-        let x_shr_ref = &x;
+        let shr_ref: &Vec<i32> = &v;
         /***
-         * x_shr_ref is a shared/immutable borrow of x
-         * vector cannot get mutated through x as long as
-         * this borrow is alive
+         * shr_ref is a shared/immutable borrow of v
+         * the vector cannot get mutated as long as
+         * it is borrowed by any immutable borrow
          */
+        {
+            let first: &i32 = v.first().unwrap();
+            /***
+             * multiple shared references borrowing from
+             * the same owner can coexist
+             */
+            println!("{} is the first in {:?}", first, shr_ref);
+        }
     }
     /***
-     * The owner, x goes out of scope here
+     * The owner, v goes out of scope here
      * and the value gets dropped
      */
 }

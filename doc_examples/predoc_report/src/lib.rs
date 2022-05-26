@@ -10,6 +10,11 @@ mod unsound_unsafe;
 #[cfg(test)]
 mod tests {
     #[test]
+    fn acc_type_test() {
+        crate::rust_access_type::access_types();
+    }
+
+    #[test]
     fn cell_test() {
         let c = crate::cell::Cell::new(42);
         let cr = &c;
