@@ -24,16 +24,16 @@ mod tests {
     }
 
     // #[test]
-    fn unsound_stupid_test() {
-        crate::unsound_unsafe::stupid();
+    fn unsound_nptr_test() {
+        crate::unsound_unsafe::deref_null();
     }
 
     #[test]
-    fn unsound_worse_test() {
+    fn unsound_tsys_test() {
         let mut x = 42;
         let mut rx = &mut x;
         let mut rrx = &mut rx;
-        crate::unsound_unsafe::worse(rrx);
+        crate::unsound_unsafe::ty_sys_spoliation(rrx);
         // let mut v = crate::unsound_unsafe::Vector {
         //     ptr: 0x0 as *mut i32,
         //     len: 0,

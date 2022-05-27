@@ -1,14 +1,14 @@
-pub fn stupid() {
-    let ptr = 0x000000usize as *mut i32;
+pub fn deref_null() {
+    let ptr = 0x0usize as *mut i32;
     unsafe {
         *ptr = 42;
     }
 }
 
-pub fn worse(rrx: &mut &mut i32) {
+pub fn ty_sys_spoliation(rrx: &mut &mut i32) {
     let ptr = rrx as *mut &mut i32 as *mut *mut i32;
     unsafe {
-        *ptr = 0x000000usize as *mut i32;
+        *ptr = 0x0usize as *mut i32;
     }
 }
 
