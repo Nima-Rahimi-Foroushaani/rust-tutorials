@@ -1,5 +1,5 @@
-pub fn push_four(v: &mut Vec<i32>) {
-    v.push(4)
+pub fn push_four(r: &mut Vec<i32>) {
+    r.push(4)
 }
 
 pub fn access_types() {
