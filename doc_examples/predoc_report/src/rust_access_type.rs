@@ -1,18 +1,19 @@
-pub fn push_four(r: &mut Vec<i32>) {
+pub fn push_four<'a>(r: &'a mut Vec<i32>) {
     r.push(4)
 }
 
 pub fn access_types() {
     let mut v: Vec<i32> = vec![1, 2, 3]; // v is the owner
-    {
-        let mrv: &mut Vec<i32> = &mut v;
-        /***
-         * mrv is a mutable borrow of v
-         * as long as this borrow is alive it
-         * is not possible to access the vector through v
-         */
-        push_four(mrv); // mutable borrow has full access
-    }
+    {//----------------------------------------------------
+        let mrv: &mut Vec<i32> = &mut v; //               |
+        /***                                              |
+         * mrv is a mutable borrow of v                   |
+         * as long as this borrow is alive it            'a
+         * is not possible to access                      |
+         * the vector through v                           |
+         */ //                                            |
+        push_four(mrv); // mutable borrow has full access |
+    }//----------------------------------------------------
 
     let _ = v.pop(); // v has its ownership back
 
