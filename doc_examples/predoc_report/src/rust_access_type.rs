@@ -8,7 +8,7 @@ pub fn access_types() {
         let mrv: &mut Vec<i32> = &mut v; //               |
         /***                                              |
          * mrv is a mutable borrow of v                   |
-         * as long as this borrow is alive it            'a
+         * as long as this borrow is alive it        [mrv lifetim]
          * is not possible to access                      |
          * the vector through v                           |
          */ //                                            |
