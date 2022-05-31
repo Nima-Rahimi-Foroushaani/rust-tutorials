@@ -1,14 +1,14 @@
 pub fn push_four<'a>(r: &'a mut Vec<i32>) {
     r.push(4)
 }
-/*** [k] means the k's lifetime */
+/*** [l1] means the lifetime l1 */
 pub fn access_types() {
     let mut v: Vec<i32> = vec![1, 2, 3]; // v is the owner
     {//----------------------------------------------------
         let mrv: &mut Vec<i32> = &mut v; //               |
         /***                                              |
          * mrv is a mutable borrow of v                   |
-         * as long as this borrow is alive it           [mrv]
+         * as long as this borrow is alive it            [l1]
          * is not possible to access                      |
          * the vector through v                           |
          */ //                                            |
@@ -27,10 +27,10 @@ pub fn access_types() {
         {//----------------------------------------       |
             let first: &i32 = //                  |       |
                 v.first().unwrap(); //            |       |
-            /***                                  |     [srv]
+            /***                                  |      [l2]
              * multiple shared references,        |       |
              * borrowing from the same owner,     |       |
-             * can coexist                     [first]    |
+             * can coexist                       [l3]     |
              */ //                                |       |
             println!("{} is the first in {:?}", //|       |
                 first, srv); //                   |       |
