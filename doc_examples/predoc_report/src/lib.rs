@@ -6,6 +6,7 @@ mod deque_annot;
 mod panic_safety;
 mod rust_access_type;
 mod unsound_unsafe;
+mod rust_access_type_exc_slide;
 
 #[cfg(test)]
 mod tests {
