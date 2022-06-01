@@ -34,7 +34,7 @@ mod tests {
         let mut x = 42;
         let mut rx = &mut x;
         let mut rrx = &mut rx;
-        crate::unsound_unsafe::ty_sys_spoliation(rrx);
+        crate::unsound_unsafe::breaks_ty_sys(rrx);
         // let mut v = crate::unsound_unsafe::Vector {
         //     ptr: 0x0 as *mut i32,
         //     len: 0,

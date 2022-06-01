@@ -5,7 +5,7 @@ pub fn deref_null() {
     }
 }
 
-pub fn ty_sys_spoliation(rrx: &mut &mut i32) {
+pub fn breaks_ty_sys(rrx: &mut &mut i32) {
     let ptr = rrx as *mut &mut i32 as *mut *mut i32;
     unsafe {
         *ptr = 0x0usize as *mut i32;
