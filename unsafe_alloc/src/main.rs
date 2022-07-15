@@ -1,9 +1,14 @@
 fn main()
-//@ requires true;
+   /*@ requires true;
+   
+
+@*/
+// Just a happy comment
 //@ ensures true;
 {
-    unsafe {
-        let layout = std::alloc::Layout::new::<i8>();
-        let _p = std::alloc::alloc(layout) as *mut i8;
-    }
+    //@ open somthing();
+    // unsafe {
+    //     let layout = std::alloc::Layout::new::<i8>();
+    //     let _p = std::alloc::alloc(layout) as *mut i8;
+    // }
 }
