@@ -1,21 +1,18 @@
 fn main()
-/*@ requires true;
-
-
-@*/
-// Just a happy comment
+//@ requires true;
 //@ ensures true;
 {
-    //@ open somthing();
     unsafe {
         let layout = std::alloc::Layout::new::<u8>();
-        // let _p = std::alloc::alloc(layout) as *mut u8;
+        let p = std::alloc::alloc(layout);
+        if p.is_null() {
+            std::alloc::handle_alloc_error(layout);
+        }
+        *p = 42;
+        if *p != 42 {
+            std::alloc::dealloc(p, layout);
+            std::alloc::dealloc(p, layout);
+        }
+        std::alloc::dealloc(p, layout);
     }
 }
-
-// fn function1(i: u8)
-// //@ requires true;
-// //@ ensures true;
-// {
-//     let j: u8 = 42;
-// }
