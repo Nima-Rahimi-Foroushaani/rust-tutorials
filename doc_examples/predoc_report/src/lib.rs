@@ -9,6 +9,7 @@ mod rust_access_type_exc_slide;
 mod unsound_unsafe;
 // mod vec_dang_ref_slide;
 mod slide_ex_cellu32;
+mod unsafe_mem_alloc;
 
 #[cfg(test)]
 mod tests {
