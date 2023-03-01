@@ -10,6 +10,7 @@ pub fn breaks_ty_sys(rrx: &mut &mut i32) {
     unsafe {
         *ptr = 0x0usize as *mut i32;
     }
+    **rrx = 42;// Null dereference!
 }
 
 pub struct Vector {
