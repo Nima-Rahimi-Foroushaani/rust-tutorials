@@ -11,13 +11,11 @@ fn caller() {
     }
 }
 
-unsafe fn alloc_u8()
+unsafe fn alloc_u8() -> *mut u8
 // Function Specification
 //@ requires true;
 /*@ ensures integers__(result, 1, false, 1, _) &*& malloc_block(result, 1) &*&
-object_pointer_within_limits(result, 1) == true; @*/
--> *mut u8
-{
+object_pointer_within_limits(result, 1) == true; @*/ {
     unsafe {
         let layout = std::alloc::Layout::new::<u8>();
         let p = std::alloc::alloc(layout);
