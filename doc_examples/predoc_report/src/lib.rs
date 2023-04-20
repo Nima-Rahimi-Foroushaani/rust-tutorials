@@ -10,6 +10,7 @@ mod unsound_unsafe;
 // mod vec_dang_ref_slide;
 mod cell_demo;
 mod rust_opt_ex;
+mod rustbelt_unsound;
 mod slide_ex_cellu32;
 mod unsafe_mem_alloc;
 
