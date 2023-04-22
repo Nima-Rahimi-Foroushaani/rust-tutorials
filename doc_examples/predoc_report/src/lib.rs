@@ -12,6 +12,7 @@ mod cell_demo;
 mod rust_opt_ex;
 mod rustbelt_unsound;
 mod slide_ex_cellu32;
+mod slide_ex_cellu32_unsafe_cell;
 mod unsafe_mem_alloc;
 
 #[cfg(test)]
