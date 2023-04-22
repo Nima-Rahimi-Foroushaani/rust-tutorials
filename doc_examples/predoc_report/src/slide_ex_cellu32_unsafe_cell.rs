@@ -11,8 +11,7 @@ impl<T> Cell<T> {
         mem::replace(unsafe { &mut *self.value.get() }, val)}
 }
 impl<T: Copy> Cell<T> {
-    pub fn get(&self) -> T {
-        unsafe { *self.value.get() }}
+    pub fn get(&self) -> T { unsafe { *self.value.get() }}
 }
 
 impl<T: ?Sized> !Sync for Cell<T> {}
