@@ -5,7 +5,7 @@ impl CellU32 {
 
   pub fn get(&self) -> u32 { self.v }
 
-  fn set(&self, u: u32) {
+  pub fn set(&self, u: u32) {
     let p = &self.v as *const u32 as *mut u32;
     unsafe { *p = u; }
   }
