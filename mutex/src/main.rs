@@ -1,3 +1,4 @@
+#![feature(negative_impls)]
 #![allow(dead_code)]
 
 mod sys {
@@ -7,25 +8,15 @@ mod sys {
         pub struct Mutex();
 
         impl Mutex {
-            pub fn new() -> Mutex
-//@ req thread_token(?t);
-        //@ ens thread_token(t) &*& Mutex_own(t);
-            {
+            pub fn new() -> Mutex {
                 abort();
             }
 
-            pub unsafe fn lock<'a>(&'a self)
-            //@ req thread_token(?t) &*& lifetime_token(?a) &*& Mutex_share(a, t, self);
-            //@ ens thread_token(t) &*& lifetime_token(a);
-            {
+            pub unsafe fn lock<'a>(&'a self) {
                 abort();
             }
 
             pub unsafe fn unlock<'a>(&'a self) {
-                abort();
-            }
-
-            pub unsafe fn try_lock<'a>(&'a self) -> bool {
                 abort();
             }
         }
@@ -45,6 +36,11 @@ struct MutexU32 {
 struct MutexGuardU32<'a> {
     lock: &'a MutexU32,
 }
+
+/* Based on https://pubs.opengroup.org/onlinepubs/009695399/functions/pthread_mutex_lock.html
+If a thread attempts to unlock a mutex that it has not locked or a mutex which is unlocked, undefined behavior results. */
+impl<'a> !Send for MutexGuardU32<'a> {}
+//unsafe impl<T: ?Sized + Sync> Sync for MutexGuard<'_, T> {}
 
 impl MutexU32 {
     pub fn new(v: u32) -> MutexU32 {
@@ -90,6 +86,4 @@ impl<'a> DerefMut for MutexGuardU32<'a> {
     }
 }
 
-fn main() {
-    println!("Hello, world!");
-}
+fn main() {}
